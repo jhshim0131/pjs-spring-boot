@@ -1,16 +1,28 @@
 package com.springboot.web;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserController {
+	private List<User> users = new ArrayList<User>();
 
 	@PostMapping("/create")
-	public String create(User user, String name, String password) {
-		System.out.println(user);   //자동으로 toString이 호출됨
-		System.out.println("name: " + name + " password: "+ password);
-		return "index2";  //시험용
+	public String create(User user) {
+		System.out.println("created user: " + user );   //자동으로 toString이 호출됨
+		users.add(user);
+		return "redirect:/list"; 
+	}
+	
+	@GetMapping("/list")
+	public String list(Model model) {
+		model.addAttribute("users", users);
+		return "list";
 	}
 	
 }
